@@ -1,0 +1,25 @@
+application: 1
+version: 2
+runtime: python27
+api_version: 1
+threadsafe: false
+
+handlers:
+- url: /stylesheets
+  static_dir: stylesheets
+
+#- url: /upload
+#  script: icsConverter.py
+
+- url: .*
+  script: main.py
+  
+#libraries:
+# - name: icalendar
+#   version: "latest"
+# - name: jinja2
+#   version: "2.6"
+# - name: webapp2
+#   version: "2.5.1"
+# - name: setuptools
+#   version: "0.6c11"
