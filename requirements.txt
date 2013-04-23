@@ -1,0 +1,11 @@
+Jinja2==2.6
+MarkupSafe==0.15
+PyAMF==0.6.1
+WebOb==1.2.3
+antlr-python-runtime==3.1.1
+icalendar==3.3
+python-dateutil==2.1
+pytz==2012j
+six==1.2.0
+webapp2==2.5.2
+wsgiref==0.1.2
