@@ -69,14 +69,14 @@ class MainPage(webapp.RequestHandler):
 class UploadHandler(webapp.RequestHandler):
     def post(self):
       #csvFile = open(self.request.get('csvUpload',default_value=''), 'rb').read()
-      
+
       from StringIO import StringIO
       import csv
-      import icsConverter
+      import icsConverterWebapp
 
-      csvFile = csv.reader(StringIO(self.request.get('csvUpload', default_value='')))      
+      csvFile = csv.reader(StringIO(self.request.get('csvUpload', default_value='')))
       icsFile = icsConverter.convert(csvFile)
-#     Looks to be working like a charm      
+#     Looks to be working like a charm
 #      logging.info("Here is icsFile: %s", icsFile)
       icsFileJS = icsFile.replace('\r\n','\\n\\\r')
 
@@ -119,11 +119,11 @@ Download.save = function(data, name){
 icsData = '%s';
 
 Download.save(icsData, 'Output.ics');
-</script> 
+</script>
           </body>
         </html>
         ''' % icsFileJS)
-        
+
 #        self.redirect("/success/?icsFile=" + icsFile)
       else:
         self.redirect("/failure")
@@ -132,25 +132,25 @@ Download.save(icsData, 'Output.ics');
 #    def get(self):
 ##        pass
 #
-#        
+#
 ##        message = "Hello, some stuff here."
 ##        print message
 #        icsFile = urllib.unquote(self.request.get('icsFile'))
-#        
+#
 #        template_values = {
 #          'icsFile': icsFile,
 #        }
 #
 #        path = os.path.join(os.path.dirname(__file__), 'success.html')
 #        self.response.out.write(template.render(path, template_values))
-#        
+#
 #        print "Attempt 3: " + icsFile
-        
+
 #        if icsFile:
 #          self.redirect("/success.html")
 #          self.response.headers['Content-Type'] = 'text/calendar'
 #          self.response.headers['Content-Disposition'] = 'attachment; filename=OutputFile.ics'
-#          self.response.out.write(icsFile)        
+#          self.response.out.write(icsFile)
 
 application = webapp.WSGIApplication([
 #  ('/success', DownloadHandler),
