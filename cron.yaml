@@ -1,0 +1,8 @@
+cron:
+- description: weekly summary job
+  url: /tasks/summary
+  schedule: every sunday 00:00
+handlers:
+- url: /_ereporter.*
+  script: $PYTHON_LIB/google/appengine/ext/ereporter/report_generator.py
+  login: admin
