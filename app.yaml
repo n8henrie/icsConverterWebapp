@@ -1,0 +1,19 @@
+application: ics-converter-webapp
+version: 2
+runtime: python27
+api_version: 1
+threadsafe: false
+
+handlers:
+- url: /stylesheets
+  static_dir: stylesheets
+- url: /_ereporter.*
+  script: $PYTHON_LIB/google/appengine/ext/ereporter/report_generator.py
+  login: admin
+  
+- url: /.*
+  script: main.py
+  
+libraries:
+- name: webapp2
+  version: "latest"
