@@ -2,7 +2,6 @@ cron:
 - description: weekly summary job
   url: /tasks/summary
   schedule: every sunday 00:00
-handlers:
-- url: /_ereporter.*
-  script: $PYTHON_LIB/google/appengine/ext/ereporter/report_generator.py
-  login: admin
+- description: Daily exception report
+  url: /_ereporter?sender=n8henrie@n8henrie.com
+  schedule: every day 00:00
