@@ -63,3 +63,5 @@ background-image: -webkit-gradient(linear, left bottom, left top, from(#d2d0d0),
 .adsense-sidebar {
 padding:10px;
 }
+
+ul {list-style-position: inside;}
