@@ -115,8 +115,6 @@ class UploadHandler(webapp2.RequestHandler):
             # Get the blob key
             blob_key = files.blobstore.get_blob_key(ics_blob)
 
-#            f = GeneratedFiles(FileName =
-#            ics_blob, BlobKey = blob_key)
             f = StoreFile(BlobKey = blob_key)
 
             f.put()
