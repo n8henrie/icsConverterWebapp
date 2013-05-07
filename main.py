@@ -69,8 +69,8 @@ class MainPage(webapp2.RequestHandler):
         path = os.path.join(os.path.dirname(__file__), 'index.html')
         self.response.out.write(template.render(path, template_values))
 
-class GeneratedFiles(ndb.Model):
-    FileName = ndb.StringProperty()
+class StoreFile(ndb.Model):
+#    FileName = ndb.StringProperty()
     BlobKey = ndb.BlobKeyProperty()
 
 class UploadHandler(webapp2.RequestHandler):
@@ -115,8 +115,10 @@ class UploadHandler(webapp2.RequestHandler):
             # Get the blob key
             blob_key = files.blobstore.get_blob_key(ics_blob)
 
-            f = GeneratedFiles(FileName =
-            ics_blob, BlobKey = blob_key)
+#            f = GeneratedFiles(FileName =
+#            ics_blob, BlobKey = blob_key)
+            f = StoreFile(BlobKey = blob_key)
+
             f.put()
 
             self.redirect('/success/%s' % blob_key)
@@ -134,8 +136,8 @@ class DLHandler(blobstore_handlers.BlobstoreDownloadHandler):
 
 application = webapp2.WSGIApplication(routes=[
     webapp2.Route(r'/upload', handler=UploadHandler, name='Upload'),
-    webapp2.Route(r'/download/<blob_key:[a-zA-Z0-9]+>', handler=DLHandler, name='Download'),
-webapp2.Route(r'/<success_status:(success|failure)>/<blob_key:[a-zA-Z0-9]+>', handler=MainPage, name='Success-Failure'),
+    webapp2.Route(r'/download/<blob_key:[a-zA-Z0-9_=.+-]+>', handler=DLHandler, name='Download'),
+webapp2.Route(r'/<success_status:(success|failure)>/<blob_key:[a-zA-Z0-9_=.+-]+>', handler=MainPage, name='Success-Failure'),
     webapp2.Route(r'/', handler=MainPage, name='MainPage'),
 ], debug=True)
 
