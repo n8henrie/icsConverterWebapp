@@ -32,7 +32,7 @@ class MainPage(webapp2.RequestHandler):
 
         # Default welcome message.
         if success_status == None:
-            message = '<p>Welcome to my first attempt at a webapp! <br />If you need instructions, please see the blog post <a target="_blank" href="http://nhenrie.com/">here</a>.</p>'
+            message = '<p>Welcome to my first attempt at a webapp! <br />If you need instructions, please see the blog post <a target="_blank" href="http://n8henrie.com/2013/05/spreadsheet-to-calendar">here</a>.</p>'
 
             # Option to append extra URLs based on success_status
 #            urls.update({ 'another url': 'http://fake.com' })
@@ -76,7 +76,7 @@ class StoreFile(ndb.Model):
 class UploadHandler(webapp2.RequestHandler):
     def post(self):
 
-        from StringIO import StringIO
+        from io import StringIO
         import csv
         import icsConverterWebapp
 
@@ -88,7 +88,7 @@ class UploadHandler(webapp2.RequestHandler):
 
         try:
             # Read up_file as a csv dictionary.
-            csvFile = list(csv.DictReader(StringIO(up_file),
+            csvFile = list(csv.DictReader(StringIO(unicode(up_file), newline=None),
             skipinitialspace = True))
 
         except:
