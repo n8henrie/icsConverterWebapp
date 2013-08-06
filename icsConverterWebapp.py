@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from random import randint
 from sys import exit
 from os.path import expanduser,isdir
+import logging
 
 def CheckHeaders(headers):
     '''Makes sure that all the headers are exactly
@@ -16,7 +17,7 @@ def CheckHeaders(headers):
     if (set(headers) != set(valid_keys)
     or len(headers) != len(valid_keys)):
         # Figure out how to return an error
-
+        logging.error('Problem in the CheckHeaders function. Headers: {}'.format(headers))
         exit(1)
     else:
         pass
@@ -42,8 +43,9 @@ def convert(reader_builder):
 
         headers = reader_builder[0].keys()
         CheckHeaders(headers)
-    except:
-        return 'error1'
+    except Exception:
+        logging.exception('May have been a headers problem. Raw headers were: {}'.format(reader_builder[0].keys()))
+        return 'error1'        
 
     try:
         reader = CleanSpaces(reader_builder)
@@ -96,12 +98,16 @@ def convert(reader_builder):
 
             cal.add_component(event)
             rownum += 1
-    except:
-            return 'error2'
+    except Exception:
+        # Headers probably okay but problem in body
+        logging.exception('Problem in body. Look around row {}.'.format(rownum))
+        return 'error2'            
 
     try:
         finalFile = cal.to_ical()
-    except:
+    except Exception:
+        # Error finalizing file.
+        logging.exception('Final file attempted to write:\n\n{}'.format(cal))
         return 'error3'
 
     return finalFile

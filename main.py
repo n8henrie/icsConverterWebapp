@@ -12,9 +12,9 @@ import os
 import datetime
 import logging
 
-# Setting up for better exception handling,
-# but not used as of May 06, 2013.
-ereporter.register_logger()
+import io
+import csv
+import icsConverterWebapp
 
 class MainPage(webapp2.RequestHandler):
     def get(self, success_status=None, blob_key=None):
@@ -58,7 +58,7 @@ class MainPage(webapp2.RequestHandler):
             message = '''<p>Well, something didn't work right.</p><p>If I had to guess, I would say {0}</p><p>I <em>highly</em> recommend you read the instructional post (below) at least once.</p>'''.format(error_dict[blob_key])
 
             # Option to append extra URLs based on success_status
-#            urls.update({ 'another url': 'http://fake.com' })
+            #urls.update({ 'another url': 'http://fake.com' })
 
         template_values = {
         'message': message,
@@ -76,10 +76,6 @@ class StoreFile(ndb.Model):
 class UploadHandler(webapp2.RequestHandler):
     def post(self):
 
-        from io import StringIO
-        import csv
-        import icsConverterWebapp
-
         csvFile = None
         icsFile = None
 
@@ -88,10 +84,11 @@ class UploadHandler(webapp2.RequestHandler):
 
         try:
             # Read up_file as a csv dictionary.
-            csvFile = list(csv.DictReader(StringIO(unicode(up_file), newline=None),
+            csvFile = list(csv.DictReader(io.StringIO(unicode(up_file, errors='ignore'), newline=None),
             skipinitialspace = True))
-
-        except:
+            
+        except Exception:
+            logging.exception('Upload failed.')
             return self.redirect('/failure/uploadfail')
 
         icsFile = icsConverterWebapp.convert(csvFile)
