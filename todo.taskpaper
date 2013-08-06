@@ -1,0 +1,4 @@
+Inbox:
+	- Consider adding support for 2-digit years in addition to 4-digit years.  @na
+	- Consider adding support for seconds in time format.  @na
+	- Add better error reporting to body of the file errors, e.g. line number that error was encountered.  @na
