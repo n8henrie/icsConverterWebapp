@@ -152,10 +152,11 @@ def convert(reader_builder):
             # Continue processing events not marked as "all day" events.
             else:
 
-            # Events with times should be 'busy' by default
+                # Events with times should be 'busy' by default
                 event.add('transp', 'OPAQUE')
 
                 # Get rid of spaces
+                # Note: Must have both start and end times if not all_day, already checked
                 row['Start Time'] = row['Start Time'].replace(' ', '')
                 row['End Time'] = row['End Time'].replace(' ', '')
                 
@@ -174,9 +175,9 @@ def convert(reader_builder):
                 else:
                     event.add('dtend', datetime.strptime(row['End Date'] + row['End Time'], '%m/%d/%Y%H:%M' ))
 
-            if row['Description']:
+            if row.get('Description'):
                 event.add('description', row['Description'])
-            if row['Location']:
+            if row.get('Location'):
                 event.add('location', row['Location'])
 
             event.add('dtstamp', datetime.replace( datetime.now(), tzinfo=LocalTimezone() ))
