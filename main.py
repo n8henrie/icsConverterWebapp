@@ -16,6 +16,7 @@ import io
 import csv
 import icsConverterWebapp
 
+
 class MainPage(webapp2.RequestHandler):
     def get(self, success_status=None, blob_key=None):
 
@@ -52,6 +53,11 @@ class MainPage(webapp2.RequestHandler):
             'error1': 'either the file wasn\'t a proper .csv file, or the headers were not *exactly* right.',
             'error2': 'the headers looked okay, but something went wrong in the actual file conversion. Take a close look at all start and end dates to verify they are in MM/DD/YYYY format (this is easily changed by any modern spreasheeting app, including Google Docs).',
             'error3': 'there was some kind of problem finalizing the file. This is a rare error, please let me know if you\'re getting it repeatedly.',
+            'error4': 'there was a problem with your dates or times. '
+            'Makes sure dates are MM/DD/YYYY and not MM/DD/YY or MM-DD-YYYY. '
+            'Make sure every event has a start date. '
+            'Make sure times are HH:MM (either 24 or 12 hour with am / pm), without seconds (not HH:MM:SS). '
+            'If an event is <b>not</b> an all-day event, it must have both start and end times.'
             }
 
             # Framework for error message.
@@ -134,9 +140,12 @@ application = webapp2.WSGIApplication(routes=[
     webapp2.Route(r'/download/<blob_key:[a-zA-Z0-9_=.+-]+>', handler=DLHandler, name='Download'),
 webapp2.Route(r'/<success_status:(success|failure)>/<blob_key:[a-zA-Z0-9_=.+-]+>', handler=MainPage, name='Success-Failure'),
     webapp2.Route(r'/', handler=MainPage, name='MainPage'),
-], debug=True)
+], debug=False)
 
 def main():
+    # Turn on THIS LOGGER to DEBUG and set `dev_appserver.py . --log_level=debug` for terminal debugging.
+    logging.getLogger().setLevel(logging.WARNING)
+
     run_wsgi_app(application)
 
 if __name__ == '__main__':
