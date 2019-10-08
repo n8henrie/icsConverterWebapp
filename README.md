@@ -3,7 +3,7 @@ icsConverterWebapp
 Google App Engine hosted Python webapp to convert a properly formatted .csv file to functioning .ics file. See my post [here](http://n8henrie.com/2013/05/spreadsheet-to-calendar/) for details.
 
 ~~icsConverterWebapp Live~~: Used to be hosted at
-http://icsconverterwebapp.n8henrie.com, but now an updated version [live at
+http://icsconverterwebapp.n8henrie.com, but now updated version is [live at
 icw.n8henrie.com](http://icw.n8henrie.com), source code at
 <https://github.com/n8henrie/icw>.
 
